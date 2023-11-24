@@ -1,5 +1,6 @@
 package be.febscap;
 
+import be.febscap.listener.ButtonListener;
 import be.febscap.listener.GeneralListener;
 import be.febscap.listener.SlashListener;
 import net.dv8tion.jda.api.JDA;
@@ -29,8 +30,10 @@ public class Main {
         }
         JDABuilder builder = JDABuilder.createDefault(token);
         builder.setActivity(Activity.playing("à l'imposteur"));
+
         builder.addEventListeners(new GeneralListener());
         builder.addEventListeners(new SlashListener());
+        builder.addEventListeners(new ButtonListener());
 
         JDA jda = builder.build();
 

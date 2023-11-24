@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.Objects;
 
 public class SlashListener extends ListenerAdapter {
+    public static final String idCatGaming = "1177271063479078973";
     public void onSlashCommandInteraction(SlashCommandInteractionEvent e) {
         switch (e.getName()) {
             case "imposteur":
