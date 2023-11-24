@@ -8,11 +8,25 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Logger;
+
 public class Main {
-
     public static void main(String[] args) throws InterruptedException {
-        final String token = "MTE3NzIyMzgzNDMzMjU4MTg4OQ.GnwWRo.oLy24whe5uuWJuy7n84dw3OdOlUC_0D59kDUkU";
-
+        String token = null;
+        try {
+            File myObj = new File("src/main/resources/ressources.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                token = myReader.nextLine();
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.print("An error occurred." + e);
+        }
         JDABuilder builder = JDABuilder.createDefault(token);
         builder.setActivity(Activity.playing("à l'imposteur"));
         builder.addEventListeners(new GeneralListener());
