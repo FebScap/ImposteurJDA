@@ -1,10 +1,12 @@
 package be.febscap.game;
 
+import be.febscap.listener.ButtonListener;
 import be.febscap.listener.SlashListener;
+import be.febscap.utils.UtilsButton;
+import be.febscap.utils.UtilsEmbedBuilder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.Channel;
-import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -49,19 +51,19 @@ public class ImposteurLobby {
                             " dans la masse en faisant semblant d'avoir le même mot secret pour éviter d’éveiller les soupçons.\n" +
                             " \n" +
                             "Pourrez-vous passer inaperçu en tant qu’imposteur ou le groupe vous démasquera t'il ?", false));
-            EmbedBuilder rules = createEmbed(Color.red, "Voici les règles du jeu :", null, ruleFields, null);
+            EmbedBuilder rules = UtilsEmbedBuilder.createEmbed(Color.red, "Voici les règles du jeu :", null, ruleFields, null);
 
 
             List<MessageEmbed.Field> gameFields = new ArrayList<>();
             gameFields.add(new MessageEmbed.Field(":pen_ballpoint: Joueurs inscrits :", "- " + e.getMember().getAsMention() + "\n",false));
-            EmbedBuilder game = createEmbed(Color.CYAN, "Jouer :", "Avant de lancer la partie, vérifiez bien que tout les participants" +
+            EmbedBuilder game = UtilsEmbedBuilder.createEmbed(Color.CYAN, "Jouer :", "Avant de lancer la partie, vérifiez bien que tout les participants" +
                     "soient inscrits.", gameFields,null);
 
 
             List<Button> buttons = new ArrayList<Button>();
-            buttons.add(Button.danger("endgame", Emoji.fromUnicode("\uD83D\uDED1")));
-            buttons.add(Button.primary("join", Emoji.fromUnicode("\uD83D\uDD8A\uFE0F")));
-            buttons.add(Button.primary("start", Emoji.fromUnicode("▶")));
+            buttons.add(UtilsButton.btnEndGame);
+            buttons.add(UtilsButton.btnJoinGame);
+            buttons.add(UtilsButton.btnStartGame);
 
             e.getGuild().createTextChannel("imposteur-lobby-" + id, e.getGuild().getCategoryById(SlashListener.idCatGaming))
                     .queue(channel -> {
@@ -92,17 +94,4 @@ public class ImposteurLobby {
         e.reply("Tout les Lobbys ont correctement été supprimés !").queue();
     }
 
-    public static EmbedBuilder createEmbed(Color color, String title, String description, List<MessageEmbed.Field> fields, String imageUrl) {
-        EmbedBuilder eb = new EmbedBuilder()
-                .setColor(color)
-                .setTitle(title)
-                .setDescription(description)
-                .setImage(imageUrl);
-        if (fields != null) {
-            for (MessageEmbed.Field field: fields) {
-                eb.addField(field);
-            }
-        }
-        return eb;
-    }
 }
